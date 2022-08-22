@@ -6,15 +6,21 @@ pub fn main() !void {
     var args = try std.process.argsWithAllocator(std.heap.page_allocator);
     defer args.deinit();
     const prog = args.next();
-    const devicIDChar = args.next() orelse {
+    const deviceIDChar = args.next() orelse {
         std.log.err("usage: {s} [cameraID]", .{prog.?});
         std.os.exit(1);
     };
-    const deviceID = try std.fmt.parseUnsigned(c_int, devicIDChar, 10);
 
     // open webcam
     var webcam = cv.VideoCapture_New();
-    _ = cv.VideoCapture_OpenDevice(webcam, deviceID);
+
+    const deviceID = std.fmt.parseUnsigned(c_int, deviceIDChar, 10) catch -1;
+    if (deviceID < 0) {
+        _ = cv.VideoCapture_Open(webcam, deviceIDChar);
+    } else {
+        _ = cv.VideoCapture_OpenDevice(webcam, deviceID);
+    }
+
     defer cv.VideoCapture_Close(webcam);
 
     const window_name = "Object Detection";
