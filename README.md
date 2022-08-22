@@ -2,6 +2,8 @@
 
 Example app using [zigcv](https://github.com/ryoppippi/zigcv) and [zig-tflite](https://github.com/mattn/zig-tflite).
 
+![](screenshot.png)
+
 ## Usage
 
 ```
