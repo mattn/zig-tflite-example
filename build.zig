@@ -45,6 +45,7 @@ pub fn build(b: *std.build.Builder) void {
             exe.addIncludePath("c:/opencv/build/install/include");
             exe.addLibraryPath("c:/msys64/mingw64/lib");
             exe.addLibraryPath("c:/opencv/build/install/x64/mingw/staticlib");
+            exe.linkSystemLibrary("tensorflowlite-delegate_xnnpack");
             exe.linkSystemLibrary("tensorflowlite_c");
             exe.linkSystemLibrary("opencv4");
             exe.linkSystemLibrary("stdc++.dll");
@@ -62,6 +63,7 @@ pub fn build(b: *std.build.Builder) void {
             exe.addLibraryPath("/opt/homebrew/lib");
             exe.addLibraryPath("/opt/homebrew/lib/opencv4/3rdparty");
             exe.linkLibCpp();
+            exe.linkSystemLibrary("tensorflowlite-delegate_xnnpack");
             exe.linkSystemLibrary("tensorflowlite_c");
             exe.linkSystemLibrary("opencv4");
             exe.linkSystemLibrary("unwind");

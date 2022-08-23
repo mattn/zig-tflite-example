@@ -52,7 +52,8 @@ pub fn main() !void {
     var tfo = try tflite.interpreterOptions();
     defer tfo.deinit();
 
-    tfo.setNumThreads(4);
+    tfo.addDelegate(tflite.XNNPACK(4));
+    //tfo.setNumThreads(4);
 
     var tfi = try tflite.interpreter(tfm, tfo);
     defer tfi.deinit();
