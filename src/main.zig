@@ -16,7 +16,7 @@ pub fn main() !void {
 
     const deviceID = std.fmt.parseUnsigned(c_int, deviceIDChar, 10) catch -1;
     if (deviceID < 0) {
-        _ = cv.VideoCapture_Open(webcam, deviceIDChar);
+        _ = cv.VideoCapture_Open(webcam, @ptrCast([*c]const u8, deviceIDChar));
     } else {
         _ = cv.VideoCapture_OpenDevice(webcam, deviceID);
     }
@@ -63,9 +63,12 @@ pub fn main() !void {
     var input = inputTensor.data(f32);
     const wanted_width = inputTensor.dim(1);
     const wanted_height = inputTensor.dim(2);
-    const loc = tfi.outputTensor(0).data(f32);
-    const class = tfi.outputTensor(1).data(f32);
-    const score = tfi.outputTensor(2).data(f32);
+    var locTensor = tfi.outputTensor(0);
+    const loc = locTensor.data(f32);
+    var classTensor = tfi.outputTensor(1);
+    const class = classTensor.data(f32);
+    var scoreTensor = tfi.outputTensor(2);
+    const score = scoreTensor.data(f32);
     const labels = [_][]const u8{ "???", "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light", "fire hydrant", "???", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "???", "backpack", "umbrella", "???", "???", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "???", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch", "potted plant", "bed", "???", "dining table", "???", "???", "toilet", "???", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator", "???", "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush" };
 
     const cdsize = cv.Size{ .width = wanted_width, .height = wanted_height };
