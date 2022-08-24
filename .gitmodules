@@ -9,3 +9,6 @@
 [submodule "libs/zigcv"]
 	path = libs/zigcv
 	url = https://github.com/ryoppippi/zigcv
+[submodule "libs/zig-tflite-edgetpu"]
+	path = libs/zig-tflite-edgetpu
+	url = https://github.com/mattn/zig-tflite-edgetpu

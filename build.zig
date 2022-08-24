@@ -19,6 +19,10 @@ pub fn build(b: *std.build.Builder) void {
         .name = "tflite-xnnpack",
         .source = std.build.FileSource{ .path = "libs/zig-tflite-xnnpack/src/main.zig" },
     };
+    // var edgetpuPkg = std.build.Pkg{
+    //     .name = "tflite-edgetpu",
+    //     .source = std.build.FileSource{ .path = "libs/zig-tflite-edgetpu/src/main.zig" },
+    // };
     var zigcvPkg = std.build.Pkg{
         .name = "zigcv",
         .source = std.build.FileSource{ .path = "libs/zigcv/src/main.zig" },
@@ -29,6 +33,7 @@ pub fn build(b: *std.build.Builder) void {
     exe.setBuildMode(mode);
     exe.addPackage(tflitePkg);
     exe.addPackage(xnnpackPkg);
+    // exe.addPackage(edgetpuPkg);
     exe.addPackage(zigcvPkg);
 
     exe.addIncludePath("libs/zigcv/libs/gocv");
@@ -51,6 +56,7 @@ pub fn build(b: *std.build.Builder) void {
             exe.addLibraryPath("c:/msys64/mingw64/lib");
             exe.addLibraryPath("c:/opencv/build/install/x64/mingw/staticlib");
             exe.linkSystemLibrary("tensorflowlite-delegate_xnnpack");
+            // exe.linkSystemLibrary("edgetpu");
             exe.linkSystemLibrary("tensorflowlite_c");
             exe.linkSystemLibrary("opencv4");
             exe.linkSystemLibrary("stdc++.dll");
@@ -69,6 +75,7 @@ pub fn build(b: *std.build.Builder) void {
             exe.addLibraryPath("/opt/homebrew/lib/opencv4/3rdparty");
             exe.linkLibCpp();
             exe.linkSystemLibrary("tensorflowlite-delegate_xnnpack");
+            // exe.linkSystemLibrary("edgetpu");
             exe.linkSystemLibrary("tensorflowlite_c");
             exe.linkSystemLibrary("opencv4");
             exe.linkSystemLibrary("unwind");

@@ -2,9 +2,11 @@ const std = @import("std");
 const cv = @import("zigcv");
 const tflite = @import("tflite");
 const xnnpack = @import("tflite-xnnpack");
+// const edgetpu = @import("tflite-edgetpu");
 
 pub fn main() !void {
-    var args = try std.process.argsWithAllocator(std.heap.page_allocator);
+    var allocator = std.heap.page_allocator;
+    var args = try std.process.argsWithAllocator(allocator);
     defer args.deinit();
     const prog = args.next();
     const deviceIDChar = args.next() orelse {
@@ -48,13 +50,19 @@ pub fn main() !void {
     };
 
     var tfm = try tflite.modelFromFile("detect.tflite");
+    // var tfm = try tflite.modelFromFile("mobilenet_ssd_v1_coco_quant_postprocess_edgetpu.tflite");
     defer tfm.deinit();
 
     var tfo = try tflite.interpreterOptions();
     defer tfo.deinit();
 
-    tfo.addDelegate(xnnpack.XNNPACK(4));
-    //tfo.setNumThreads(4);
+    // var devices = std.ArrayList(edgetpu.Device).init(allocator);
+    // defer devices.deinit();
+    // try edgetpu.listDevices(&devices);
+    // if (devices.items.len > 0) {
+    //     tfo.addDelegate(edgetpu.EdgeTPU(devices.items[0], 0));
+    // }
+    tfo.setNumThreads(4);
 
     var tfi = try tflite.interpreter(tfm, tfo);
     defer tfi.deinit();
