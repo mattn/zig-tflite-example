@@ -2,6 +2,10 @@
 	path = libs/zig-tflite
 	url = https://github.com/mattn/zig-tflite
 
+[submodule "libs/zig-tflite-xnnpack"]
+	path = zig-tflite-xnnpack
+	url = https://github.com/mattn/zig-tflite-xnnpack
+
 [submodule "libs/zigcv"]
 	path = libs/zigcv
 	url = https://github.com/ryoppippi/zigcv

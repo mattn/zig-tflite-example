@@ -1,6 +1,7 @@
 const std = @import("std");
 const cv = @import("zigcv");
 const tflite = @import("tflite");
+const xnnpack = @import("tflite-xnnpack");
 
 pub fn main() !void {
     var args = try std.process.argsWithAllocator(std.heap.page_allocator);
@@ -52,7 +53,7 @@ pub fn main() !void {
     var tfo = try tflite.interpreterOptions();
     defer tfo.deinit();
 
-    tfo.addDelegate(tflite.XNNPACK(4));
+    tfo.addDelegate(xnnpack.XNNPACK(4));
     //tfo.setNumThreads(4);
 
     var tfi = try tflite.interpreter(tfm, tfo);

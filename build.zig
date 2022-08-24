@@ -15,6 +15,10 @@ pub fn build(b: *std.build.Builder) void {
         .name = "tflite",
         .source = std.build.FileSource{ .path = "libs/zig-tflite/src/main.zig" },
     };
+    var xnnpackPkg = std.build.Pkg{
+        .name = "tflite-xnnpack",
+        .source = std.build.FileSource{ .path = "libs/zig-tflite-xnnpack/src/main.zig" },
+    };
     var zigcvPkg = std.build.Pkg{
         .name = "zigcv",
         .source = std.build.FileSource{ .path = "libs/zigcv/src/main.zig" },
@@ -24,6 +28,7 @@ pub fn build(b: *std.build.Builder) void {
     exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.addPackage(tflitePkg);
+    exe.addPackage(xnnpackPkg);
     exe.addPackage(zigcvPkg);
 
     exe.addIncludePath("libs/zigcv/libs/gocv");
